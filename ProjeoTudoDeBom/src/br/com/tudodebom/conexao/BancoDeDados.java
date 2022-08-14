@@ -3,16 +3,19 @@ package br.com.tudodebom.conexao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 
 public class BancoDeDados {
-	private  static Connection con = null;
+	private  static Connection connection = null;
 	
 	/* Variável para se conectar ao DataBase */
-	private static String  servidor = "jdbc:mysql://localhost/ibm";
+	private static String  servidor = "jdbc:mysql://localhost/projeto";
 
 	/* Variável para receber o nome do usuário do Banco de Dados */
 	private  static String usuario = "root";
@@ -32,28 +35,66 @@ public class BancoDeDados {
 	
 
 	public static Connection getConnection() {
-	  
 		try {
-			if (con == null) {
+			if (connection  == null) {
 				Class.forName(driver);
-				con = DriverManager.getConnection(servidor, usuario, senha);
-			} else if (con.isClosed()) {
-				con = null;
+				connection  = DriverManager.getConnection(servidor, usuario, senha);
+			} else if (connection .isClosed()) {
+				connection = null;
 				return getConnection();
 			}
 	  } catch (ClassNotFoundException e) {
 	
-	    //TODO: use um sistema de log apropriado.
 	
 	    e.printStackTrace();
 	  } catch (SQLException e) {
 	
-	    //TODO: use um sistema de log apropriado.
 	
 	    e.printStackTrace();
 	  }
-	  return con;
+	  return connection ;
 	}
+	public static void closeConnection(Connection connection ) {
+        try {
+            if (connection  != null) {
+            	connection .close();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(BancoDeDados.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public static void closeConnection(Connection connection , PreparedStatement statement) {
+
+        closeConnection(connection );
+
+        try {
+
+            if (statement != null) {
+            	statement.close();
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(BancoDeDados.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public static void closeConnection(Connection connection , PreparedStatement statement, ResultSet resulset) {
+
+        closeConnection(connection , statement);
+
+        try {
+
+            if (resulset != null) {
+            	resulset.close();
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(BancoDeDados.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+	
 	
 	public static boolean estaConectado(Connection connection) {
 		if(connection!=null) {

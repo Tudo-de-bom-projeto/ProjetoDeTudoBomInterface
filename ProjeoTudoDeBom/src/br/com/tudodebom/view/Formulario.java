@@ -19,7 +19,7 @@ import java.sql.Connection;
 
 import java.awt.event.ActionEvent;
 
-public class FormularioCliente extends JFrame {
+public class Formulario extends JFrame {
 
 	/**
 	 * 
@@ -44,7 +44,7 @@ public class FormularioCliente extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FormularioCliente frame = new FormularioCliente();
+					Formulario frame = new Formulario();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -56,7 +56,7 @@ public class FormularioCliente extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public FormularioCliente() {
+	public Formulario() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -91,9 +91,9 @@ public class FormularioCliente extends JFrame {
 		textCpf.setBounds(106, 122, 206, 25);
 		contentPane.add(textCpf);
 		
-		JLabel lblTelofone = new JLabel("Telofone  :");
-		lblTelofone.setBounds(39, 165, 53, 14);
-		contentPane.add(lblTelofone);
+		JLabel lblTelefone = new JLabel("Telefone  :");
+		lblTelefone.setBounds(39, 167, 53, 14);
+		contentPane.add(lblTelefone);
 		
 		textTelefone = new JTextField();
 		textTelefone.setColumns(10);
@@ -103,8 +103,7 @@ public class FormularioCliente extends JFrame {
 		JButton btnInserir = new JButton("Inserir");
 		btnInserir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				
+			
 				ClientesDAO clientedao = new ClientesDAO();
 				Clientes c = new Clientes(); 
 				c.setNomeCliente(textNome.getText());
@@ -112,10 +111,9 @@ public class FormularioCliente extends JFrame {
 				c.setCpf(textCpf.getText());
 				c.setTelefone(textTelefone.getText());
 				clientedao.inserirCliente(c);
-				
-				  	textNome.setText("");
-			        textData.setText("");
-			        textCpf.setText("");
+				textNome.setText("");
+			    textData.setText("");
+			     textCpf.setText("");
 			        textTelefone.setText("");
 			}
 		});
@@ -123,3 +121,4 @@ public class FormularioCliente extends JFrame {
 		contentPane.add(btnInserir);
 	}
 }
+
