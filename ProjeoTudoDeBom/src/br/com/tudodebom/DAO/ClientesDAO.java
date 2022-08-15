@@ -19,7 +19,7 @@ public class ClientesDAO {
         List<Clientes> lista = new ArrayList<>();
 	PreparedStatement statement=null;
 	Connection connection = BancoDeDados.getConnection();
-	ResultSet resultset;
+	ResultSet resultset=null;
         
             try {
                 // Tratando excecao do retorno select
@@ -39,7 +39,7 @@ public class ClientesDAO {
             } catch (SQLException e) {
                 System.out.println("Erro: " + e.getMessage());
             } finally {
-                BancoDeDados.closeConnection(connection, statement);
+                BancoDeDados.closeConnection(connection, statement, resultset);
             }
         return lista;
     }
@@ -69,14 +69,15 @@ public class ClientesDAO {
             Connection connection = BancoDeDados.getConnection();
             try {
                 // linha de execucao da sinxtaxe update em sql
-		String query = ("update clientes SET nome_cliente,telofone_cliente= ? WHERE id_cliente = ?");
-		statement = connection.prepareStatement(query);
+		String query = ("update clientes SET nome_cliente = ? ,telofone_cliente = ? WHERE id_cliente = ?;");
+		statement = connection.prepareStatement("update clientes SET nome_cliente = ? ,telefone_cliente = ? WHERE id_cliente = ?;");
 		statement.setString(1, cliente.getNomeCliente());
 		statement.setString(2, cliente.getTelefone());
 		statement.setInt(3, cliente.getIdCliente());
-		statement.execute(query);
+		statement.execute();
+                JOptionPane.showMessageDialog(null, "Atualizado com sucesso!");
             } catch (SQLException e) {
-                System.out.println("Erro: " + e.getMessage());
+               JOptionPane.showMessageDialog(null, "Erro em atualizar " + e);
             } finally {
                 BancoDeDados.closeConnection(connection, statement);
             }
@@ -87,10 +88,10 @@ public class ClientesDAO {
             Connection connection = BancoDeDados.getConnection();
             try {
 		// linha de execucao da sintaxe delete em sql
-                String query = "delete from clientes where id= ? ;";
-		statement=connection.prepareStatement(query);
+                String query = "delete from clientes where id_cliente = ? ;";
+		statement=connection.prepareStatement("delete from clientes where id_cliente = ? ;");
 		statement.setInt(1, cliente.getIdCliente());
-		statement.execute(query);
+		statement.execute();
             } catch (SQLException e) {
                 System.out.println("Erro: " + e.getMessage());
             } finally {

@@ -6,6 +6,8 @@ package br.com.tudodebom.view;
 
 import br.com.tudodebom.DAO.ClientesDAO;
 import br.com.tudodebom.model.Clientes;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -14,15 +16,31 @@ import br.com.tudodebom.model.Clientes;
 public class ClienteView extends javax.swing.JFrame {
         ClientesDAO clienteDAO = new ClientesDAO();
        
-        
+    
     /**
      * Creates new form ClienteView
      */
     public ClienteView() {
         initComponents();
-       
+        DefaultTableModel tabela= (DefaultTableModel) tabelaClientes.getModel();
+        tabelaClientes.setRowSorter(new TableRowSorter(tabela));
+        readTabela();
     }
+    private void readTabela(){
+        DefaultTableModel tabela= (DefaultTableModel) tabelaClientes.getModel();
+        tabela.setNumRows(0);
+        for (Clientes c : clienteDAO.listaClientes()) {
+            tabela.addRow(new Object[]{
+                c.getIdCliente(),
+                c.getNomeCliente(),
+                c.getTelefone(),
+                c.getCpf(),
+                c.getDataNascimento(),
+                c.getSexo()    
+            });
 
+        }    
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -52,8 +70,9 @@ public class ClienteView extends javax.swing.JFrame {
         botaoExcluir = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         campoPesquisar = new javax.swing.JTextField();
+        botaoAtualizar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tabelaClientes = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Tela de Clientes");
@@ -64,7 +83,7 @@ public class ClienteView extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 12)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Cadastro de Clientes");
-        jLabel1.setBorder(javax.swing.BorderFactory.createLineBorder(null));
+        jLabel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jLabel2.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 12)); // NOI18N
         jLabel2.setText("Nome");
@@ -149,7 +168,7 @@ public class ClienteView extends javax.swing.JFrame {
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/tudodebom/Img/748137.png"))); // NOI18N
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(null));
+        jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         botaoSalvar.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 12)); // NOI18N
         botaoSalvar.setText("Salvar");
@@ -175,6 +194,14 @@ public class ClienteView extends javax.swing.JFrame {
             }
         });
 
+        botaoAtualizar.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 12)); // NOI18N
+        botaoAtualizar.setText("Atualizar");
+        botaoAtualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoAtualizarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -184,6 +211,8 @@ public class ClienteView extends javax.swing.JFrame {
                 .addComponent(botaoSalvar)
                 .addGap(29, 29, 29)
                 .addComponent(botaoExcluir)
+                .addGap(18, 18, 18)
+                .addComponent(botaoAtualizar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -193,18 +222,20 @@ public class ClienteView extends javax.swing.JFrame {
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(botaoSalvar)
-                    .addComponent(botaoExcluir))
-                .addGap(0, 16, Short.MAX_VALUE))
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(campoPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(botaoSalvar)
+                        .addComponent(botaoExcluir)
+                        .addComponent(botaoAtualizar))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel8)
+                            .addComponent(campoPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(0, 5, Short.MAX_VALUE))
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tabelaClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -224,7 +255,17 @@ public class ClienteView extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        tabelaClientes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabelaClientesMouseClicked(evt);
+            }
+        });
+        tabelaClientes.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tabelaClientesKeyPressed(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tabelaClientes);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -343,17 +384,67 @@ public class ClienteView extends javax.swing.JFrame {
             c.setSexo("Feminino");
         }
         clienteDAO.inserirCliente(c);
+        readTabela();
     }//GEN-LAST:event_botaoSalvarActionPerformed
 
     private void botaoExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoExcluirActionPerformed
         // TODO add your handling code here:
-      
+           Clientes c = new Clientes();
+        if(tabelaClientes.getSelectedRow()!= -1){
+            
+            c.setNomeCliente(TextNome.getText());
+            c.setCpf(TextCpf.getText());
+            c.setTelefone(TextTelefone.getText());
+            c.setDataNascimento(TextDataDeNascimento.getText());
+            c.setIdCliente((int)(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(), 0)));
+            clienteDAO.deletarCliente(c);
+            readTabela();
+        }
+     
+            
         
     }//GEN-LAST:event_botaoExcluirActionPerformed
 
     private void campoPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoPesquisarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_campoPesquisarActionPerformed
+
+    private void botaoAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoAtualizarActionPerformed
+            // TODO add your handling code here:
+        Clientes c = new Clientes();
+        if(tabelaClientes.getSelectedRow()!= -1){
+            c.setNomeCliente(TextNome.getText());
+            c.setCpf(TextCpf.getText());
+            c.setTelefone(TextTelefone.getText());
+            c.setDataNascimento(TextDataDeNascimento.getText());
+            c.setIdCliente((int)(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(), 0)));
+            clienteDAO.AtualizarCliente(c);
+            readTabela();
+        }
+       
+          
+    }//GEN-LAST:event_botaoAtualizarActionPerformed
+
+    private void tabelaClientesKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tabelaClientesKeyPressed
+        // TODO add your handling code here:
+         if(tabelaClientes.getSelectedRow()!= -1){
+            TextNome.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(), 1).toString());
+            TextTelefone.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(), 2).toString());
+            TextCpf.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(), 3).toString());
+            TextDataDeNascimento.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(), 4).toString());
+            
+         } 
+    }//GEN-LAST:event_tabelaClientesKeyPressed
+
+    private void tabelaClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaClientesMouseClicked
+        // TODO add your handling code here:
+         if(tabelaClientes.getSelectedRow()!= -1){
+            TextNome.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(), 1).toString());
+            TextTelefone.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(), 2).toString());
+            TextCpf.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(), 3).toString());
+            TextDataDeNascimento.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(), 4).toString());
+         } 
+    }//GEN-LAST:event_tabelaClientesMouseClicked
 
     /**
      * @param args the command line arguments
@@ -397,6 +488,7 @@ public class ClienteView extends javax.swing.JFrame {
     private javax.swing.JTextField TextDataDeNascimento;
     private javax.swing.JTextField TextNome;
     private javax.swing.JTextField TextTelefone;
+    private javax.swing.JButton botaoAtualizar;
     private javax.swing.JButton botaoExcluir;
     private javax.swing.JButton botaoSalvar;
     private javax.swing.JTextField campoPesquisar;
@@ -412,6 +504,6 @@ public class ClienteView extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tabelaClientes;
     // End of variables declaration//GEN-END:variables
 }
