@@ -9,12 +9,20 @@ package br.com.tudodebom.model;
 public class Clientes {
 
 	/*Atributos */
-	private int idCliente;
-	private String nomeCliente;
-	private String dataNascimento;
-	private String cpf;
-	private String telefone;
-	
+    private int idCliente;
+    private String nomeCliente;
+    private String dataNascimento;
+    private String cpf;
+    private String telefone;
+    private String sexo;
+
+        public String getSexo() {
+            return sexo;
+        }
+
+        public void setSexo(String sexo) {
+            this.sexo = sexo;
+        }
 	
 	public int getIdCliente() {
 		return idCliente;
