@@ -43,6 +43,39 @@ public class ClientesDAO {
             }
         return lista;
     }
+    public List<Clientes> buscarPeloNomeClientes(String nome) {
+        List<Clientes> lista = new ArrayList<>();
+	PreparedStatement statement=null;
+	Connection connection = BancoDeDados.getConnection();
+	ResultSet resultset=null;
+        
+            try {
+                // Tratando excecao do retorno selec
+		statement = connection.prepareStatement("SELECT * FROM clientes WHERE nome_cliente LIKE ?");
+                statement.setString(1,"%"+nome+"%");
+		resultset=statement.executeQuery();
+		while (resultset.next()) {
+                    Clientes cliente =new Clientes();
+                    cliente.setIdCliente(resultset.getInt("id_cliente"));
+                    cliente.setNomeCliente(resultset.getString("nome_cliente"));
+                    cliente.setDataNascimento(resultset.getString("data_nascimento"));
+                    cliente.setCpf(resultset.getString("cpf_cliente"));
+                    cliente.setSexo(resultset.getString("sexo_cliente"));
+                    cliente.setTelefone(resultset.getString("telefone_cliente"));
+                    lista.add(cliente);
+		}
+            } catch (SQLException e) {
+                System.out.println("Erro: " + e.getMessage());
+            } finally {
+                BancoDeDados.closeConnection(connection, statement, resultset);
+            }
+        return lista;
+    }
+    
+    
+    
+    
+    
     //inserir registros	
     public void inserirCliente(Clientes cliente){
         Connection con = BancoDeDados.getConnection();
@@ -98,4 +131,36 @@ public class ClientesDAO {
                 BancoDeDados.closeConnection(connection, statement);
             }
 	}
+        
+        
+        
+        
+     public static Clientes buscarPeloCpf (String cpf) {
+      
+	PreparedStatement statement=null;
+	Connection connection = BancoDeDados.getConnection();
+	ResultSet resultset=null;
+        
+            try {
+                // Tratando excecao do retorno selec
+		statement = connection.prepareStatement("SELECT * FROM clientes WHERE cpf_cliente LIKE ?");
+                statement.setString(1,"%"+cpf+"%");
+		resultset=statement.executeQuery();
+		while (resultset.next()) {
+                    Clientes cliente =new Clientes();
+                    cliente.setIdCliente(resultset.getInt("id_cliente"));
+                    cliente.setNomeCliente(resultset.getString("nome_cliente"));
+                    cliente.setDataNascimento(resultset.getString("data_nascimento"));
+                    cliente.setCpf(resultset.getString("cpf_cliente"));
+                    cliente.setSexo(resultset.getString("sexo_cliente"));
+                    cliente.setTelefone(resultset.getString("telefone_cliente"));
+                    return cliente;
+		}
+            } catch (SQLException e) {
+                System.out.println("Erro: " + e.getMessage());
+            } finally {
+                BancoDeDados.closeConnection(connection, statement, resultset);
+            }
+        return null;
+    }
 }

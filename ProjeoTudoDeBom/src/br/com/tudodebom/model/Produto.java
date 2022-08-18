@@ -6,21 +6,22 @@ package br.com.tudodebom.model;
 
 /**
  *
- * @author ritha
+ * @author walderneyy
  */
 public class Produto {
     
-    	private int id_produto;
+    	private Integer id_produto;
 	private String nome_produto;
-	private int qtd_produto;
-	private boolean tipo_medicamento;
-	private boolean tipo_generico;
+	private Integer qtd_produto;
+	private Boolean tipo_medicamento;
+	private Boolean tipo_generico;
 	private Double preco;
+       
 	
-	public int getId_produto() {
+	public Integer getId_produto() {
 		return id_produto;
 	}
-	public void setId_produto(int id_produto) {
+	public void setId_produto(Integer id_produto) {
 		this.id_produto = id_produto;
 	}
 	public String getNome_produto() {
@@ -38,13 +39,13 @@ public class Produto {
 	public boolean isTipo_medicamento() {
 		return tipo_medicamento;
 	}
-	public void setTipo_medicamento(boolean tipo_medicamento) {
+	public void setTipo_medicamento(Boolean tipo_medicamento) {
 		this.tipo_medicamento = tipo_medicamento;
 	}
 	public boolean isTipo_generico() {
 		return tipo_generico;
 	}
-	public void setTipo_generico(boolean tipo_generico) {
+	public void setTipo_generico(Boolean tipo_generico) {
 		this.tipo_generico = tipo_generico;
 	}
 	public Double getPreco() {

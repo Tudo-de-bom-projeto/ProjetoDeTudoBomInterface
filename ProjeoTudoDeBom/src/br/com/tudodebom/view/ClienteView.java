@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package br.com.tudodebom.view;
 
 import br.com.tudodebom.DAO.ClientesDAO;
@@ -11,7 +8,7 @@ import javax.swing.table.TableRowSorter;
 
 /**
  *
- * @author ritha
+ * @author walderney
  */
 public class ClienteView extends javax.swing.JFrame {
         ClientesDAO clienteDAO = new ClientesDAO();
@@ -25,6 +22,7 @@ public class ClienteView extends javax.swing.JFrame {
         DefaultTableModel tabela= (DefaultTableModel) tabelaClientes.getModel();
         tabelaClientes.setRowSorter(new TableRowSorter(tabela));
         readTabela();
+       
     }
     private void readTabela(){
         DefaultTableModel tabela= (DefaultTableModel) tabelaClientes.getModel();
@@ -41,6 +39,21 @@ public class ClienteView extends javax.swing.JFrame {
 
         }    
     }
+    private void readTabelaPeloNome(String nome){
+        DefaultTableModel tabela= (DefaultTableModel) tabelaClientes.getModel();
+        tabela.setNumRows(0);
+        for (Clientes c : clienteDAO.buscarPeloNomeClientes(nome)) {
+            tabela.addRow(new Object[]{
+                c.getIdCliente(),
+                c.getNomeCliente(),
+                c.getTelefone(),
+                c.getCpf(),
+                c.getDataNascimento(),
+                c.getSexo()    
+            });
+        }
+    }    
+       
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -80,32 +93,34 @@ public class ClienteView extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 12)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Candara", 1, 14)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Cadastro de Clientes");
         jLabel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jLabel2.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 12)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Candara", 1, 14)); // NOI18N
         jLabel2.setText("Nome");
 
-        jLabel3.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 12)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Candara", 1, 14)); // NOI18N
         jLabel3.setText("Data de Nascimento");
 
-        jLabel4.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 12)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Candara", 1, 14)); // NOI18N
         jLabel4.setText("Cpf");
 
-        jLabel5.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 12)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Candara", 1, 14)); // NOI18N
         jLabel5.setText("Telefone");
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel6.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 12)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Candara", 1, 14)); // NOI18N
         jLabel6.setText("Sexo");
 
         CampoMasculino.setBackground(new java.awt.Color(255, 255, 255));
+        CampoMasculino.setFont(new java.awt.Font("Candara", 1, 14)); // NOI18N
         CampoMasculino.setText("Masculino");
 
         CampoFeminino.setBackground(new java.awt.Color(255, 255, 255));
+        CampoFeminino.setFont(new java.awt.Font("Candara", 1, 14)); // NOI18N
         CampoFeminino.setText("Feminino");
         CampoFeminino.setToolTipText("");
         CampoFeminino.addActionListener(new java.awt.event.ActionListener() {
@@ -170,7 +185,7 @@ public class ClienteView extends javax.swing.JFrame {
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        botaoSalvar.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 12)); // NOI18N
+        botaoSalvar.setFont(new java.awt.Font("Candara", 1, 14)); // NOI18N
         botaoSalvar.setText("Salvar");
         botaoSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -178,7 +193,7 @@ public class ClienteView extends javax.swing.JFrame {
             }
         });
 
-        botaoExcluir.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 12)); // NOI18N
+        botaoExcluir.setFont(new java.awt.Font("Candara", 1, 14)); // NOI18N
         botaoExcluir.setText("Excluir");
         botaoExcluir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -187,6 +202,11 @@ public class ClienteView extends javax.swing.JFrame {
         });
 
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/tudodebom/Img/76824.png"))); // NOI18N
+        jLabel8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel8MouseClicked(evt);
+            }
+        });
 
         campoPesquisar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -194,7 +214,7 @@ public class ClienteView extends javax.swing.JFrame {
             }
         });
 
-        botaoAtualizar.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 12)); // NOI18N
+        botaoAtualizar.setFont(new java.awt.Font("Candara", 1, 14)); // NOI18N
         botaoAtualizar.setText("Atualizar");
         botaoAtualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -232,7 +252,7 @@ public class ClienteView extends javax.swing.JFrame {
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel8)
                             .addComponent(campoPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(0, 5, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         tabelaClientes.setModel(new javax.swing.table.DefaultTableModel(
@@ -287,7 +307,7 @@ public class ClienteView extends javax.swing.JFrame {
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(TextTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(TextCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
                                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(61, 61, 61))
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -407,6 +427,7 @@ public class ClienteView extends javax.swing.JFrame {
 
     private void campoPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoPesquisarActionPerformed
         // TODO add your handling code here:
+        
     }//GEN-LAST:event_campoPesquisarActionPerformed
 
     private void botaoAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoAtualizarActionPerformed
@@ -446,10 +467,17 @@ public class ClienteView extends javax.swing.JFrame {
          } 
     }//GEN-LAST:event_tabelaClientesMouseClicked
 
+    private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
+        // TODO add your handling code here:
+
+        readTabelaPeloNome(campoPesquisar.getText());
+        
+    }//GEN-LAST:event_jLabel8MouseClicked
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+   public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -474,12 +502,12 @@ public class ClienteView extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ClienteView().setVisible(true);
-            }
-        });
-    }
+    java.awt.EventQueue.invokeLater(new Runnable() {
+             public void run() {
+              // new ClienteView().setVisible(true);
+          }
+       });
+   }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JRadioButton CampoFeminino;

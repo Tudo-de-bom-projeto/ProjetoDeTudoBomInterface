@@ -15,7 +15,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 
 import br.com.tudodebom.conexao.BancoDeDados;
-import br.com.tudodebom.model.Clientes;
+import br.com.tudodebom.model.Produto;
 import br.com.tudodebom.model.Produto;
 import java.sql.SQLException;
 /**
@@ -39,7 +39,6 @@ public class ProdutosDAO {
 		resultset=statement.executeQuery(query);
 			while(resultset.next()) {
 				Produto produto = new Produto();
-				
 				produto.setId_produto(resultset.getInt("id_produto"));
 				produto.setNome_produto(resultset.getString("nome_produto"));
 				produto.setQtd_produto(resultset.getInt("qtd_produto"));
@@ -98,5 +97,60 @@ public class ProdutosDAO {
 		}
 		
 	}
-    
+    public List<Produto> buscarPeloNomeProdutos(String nome) {
+        List<Produto> lista = new ArrayList<>();
+	PreparedStatement statement=null;
+	Connection connection = BancoDeDados.getConnection();
+	ResultSet resultset=null;
+        
+            try {
+                // Tratando excecao do retorno selec
+		statement = connection.prepareStatement("SELECT * FROM Produto WHERE nome_produto LIKE ?");
+                statement.setString(1,"%"+nome+"%");
+		resultset=statement.executeQuery();
+		while (resultset.next()) {
+                    Produto produto =new Produto();
+                    produto.setId_produto(resultset.getInt("id_produto"));
+                    produto.setNome_produto(resultset.getString("nome_produto"));
+                    produto.setQtd_produto(resultset.getInt("qtd_produto"));
+                    produto.setTipo_medicamento(resultset.getBoolean("tipo_medicamento"));
+                    produto.setTipo_generico(resultset.getBoolean("tipo_generico"));
+                    produto.setPreco(resultset.getDouble("preco"));
+                    lista.add(produto);
+		}
+            } catch (SQLException e) {
+                System.out.println("Erro: " + e.getMessage());
+            } finally {
+                BancoDeDados.closeConnection(connection, statement, resultset);
+            }
+        return lista;
+    }
+    public Produto buscarPeloid(Integer id) {
+        List<Produto> lista = new ArrayList<>();
+	PreparedStatement statement=null;
+	Connection connection = BancoDeDados.getConnection();
+	ResultSet resultset=null;
+        
+            try {
+                // Tratando excecao do retorno selec
+		statement = connection.prepareStatement("SELECT * FROM Produto WHERE nome_produto LIKE ?");
+                statement.setString(1,"%"+id+"%");
+		resultset=statement.executeQuery();
+		while (resultset.next()) {
+                    Produto produto =new Produto();
+                    produto.setId_produto(resultset.getInt("id_produto"));
+                    produto.setNome_produto(resultset.getString("nome_produto"));
+                    produto.setQtd_produto(resultset.getInt("qtd_produto"));
+                    produto.setTipo_medicamento(resultset.getBoolean("tipo_medicamento"));
+                    produto.setTipo_generico(resultset.getBoolean("tipo_generico"));
+                    produto.setPreco(resultset.getDouble("preco"));
+                    return produto;
+		}
+            } catch (SQLException e) {
+                System.out.println("Erro: " + e.getMessage());
+            } finally {
+                BancoDeDados.closeConnection(connection, statement, resultset);
+            }
+        return null;
+    }
 }
