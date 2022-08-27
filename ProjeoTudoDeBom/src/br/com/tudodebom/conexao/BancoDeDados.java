@@ -24,7 +24,7 @@ public class BancoDeDados {
 	private  static String usuario = "root";
 
 	/* Variável para receber a senha do usuário do Banco de dados */
-	private  static String senha = "wandos12";
+	private  static String senha = "";
 
 	/* Variável para vincular o driver de conexão */
 	private static String driver = "com.mysql.cj.jdbc.Driver";
